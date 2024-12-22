@@ -1,0 +1,230 @@
+﻿@model IEnumerable<UDShortURL.Models.ShortURL>
+
+@{
+    ViewData["Title"] = "Index1";
+}
+
+<h1>Index</h1>
+
+<form asp-controller="ShortUrl" asp-action="TrangTao" >
+    <button type="submit" class="btn btn-primary" >Tạo URL ngắn</button>
+</form>
+
+<style>
+    body {
+        background-image: url('images/mainback.jpg');
+    }
+
+    th, td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    thead {
+        background-color: #3498db;
+        color: white;
+    }
+
+
+    tbody tr:nth-child(odd) {
+        background-color: #e8e8e8;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #ffffff;
+    }
+
+
+    .btn {
+        padding: 3px 6px;
+        font-size: 12px;
+        border-radius: 4px;
+        margin: 0 2px;
+    }
+
+    .btn-warning {
+        background-color: #2ecc71;
+        color: white;
+    }
+
+    .btn-info {
+        background-color: #3498db;
+        color: white;
+        white-space: nowrap;
+        height: auto;
+        line-height: 1;
+        padding: 5px 10px;
+        display: flex;
+        align-items: center;
+    }
+
+        .btn-info i {
+            margin-right: 5px;
+        }
+
+        .btn-info span {
+            display: block;
+        }
+
+    .btn-danger {
+        background-color: #e74c3c;
+        color: white;
+    }
+
+    .btn-group .btn {
+        flex: 1;
+        min-width: 60px;
+    }
+
+        .btn-group .btn i {
+            margin-right: 5px;
+        }
+
+    .btn-group {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .table {
+        width: 100%;
+    }
+
+</style>
+
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" />
+</head>
+
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $('.datetimepicker').datetimepicker({
+                format: ' d/m/Y '
+            });
+        });
+    </script>
+    <table id="ntable " class="table table-striped table-bordered">
+        <thead>
+            <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LongUrl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShortUrl1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedAt)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpiredTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RedirectCount)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+                <td>
+                    <a href="@item.LongUrl" target="_blank">@Html.DisplayFor(modelItem => item.LongUrl)</a>
+                </td>
+                <td>
+                    <a href="@item.ShortUrl1" target="_blank">@Html.DisplayFor(modelItem => item.ShortUrl1)</a>
+                </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedAt)
+            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ExpiredTime)
+                </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RedirectCount)
+            </td>
+               
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<div>
+    <a asp-controller="ShortUrl" asp-action="TrangTao">Back to List</a>
+</div>
+</body>
+    <!-- jQuery -->
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- DataTables JS -->
+
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+    <!-- DataTables CSS -->
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+    <script>
+
+        $(document).ready(function () {
+
+            var table = new DataTable('.table', {
+
+                lengthMenu: [5, 10, 15, 20, 25, 30], // Đặt các giá trị cho menu số bản ghi
+
+                language: {
+
+                    processing: "Đang tải dữ liệu", // Thông báo khi dữ liệu đang được xử lý
+
+                    search: "Tìm nhanh: ", // Văn bản cho ô tìm kiếm
+
+                    lengthMenu: "Số bản ghi hiển thị trên trang _MENU_ ", // Tùy chọn số bản ghi hiển thị
+
+                    info: "Tổng bản ghi: _TOTAL_", // Hiển thị thông tin tổng số bản ghi
+
+                    infoEmpty: "Chưa có nội dung nào trong danh sách", // Thông báo khi không có dữ liệu
+
+                    infoFiltered: "",
+
+                    loadingRecords: "Đang tải...", // Thông báo khi đang tải dữ liệu
+
+                    zeroRecords: "Không tìm thấy dữ liệu!", // Thông báo khi không tìm thấy dữ liệu
+                    emptyTable: "Không có dữ liệu nào!", // Thông báo khi không có dữ liệu trong bảng
+
+                    paginate: {
+
+                        first: "Trang đầu", // Nút chuyển đến trang đầu
+
+                        previous: "Trang trước", // Nút chuyển về trang trước
+
+                        next: "Trang sau", // Nút chuyển đến trang sau
+
+                        last: "Trang cuối" // Nút chuyển đến trang cuối
+
+                    },
+
+                    aria: {
+
+                        sortAscending: ": Đang sắp xếp tăng dần", // Thông báo khi sắp xếp tăng dần
+
+                        sortDescending: ": Đang sắp xếp giảm dần" // Thông báo khi sắp xếp giảm dần
+
+                    }
+
+                } // Đóng đối tượng language
+
+            }); // Đóng hàm DataTable
+
+
+        }); // Đóng hàm ready
+
+    </script>
